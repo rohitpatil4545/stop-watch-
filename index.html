@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Stop-Watch</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        body{
+            background-color: rgb(124, 121, 121);
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            min-height: 100vh;
+            color: white;
+            flex-direction: column;
+        }
+        .box{
+         background-color: black;   
+         padding: 20px 22px;
+         border-radius: 10px;
+         width: 17%;
+    
+        }
+        .watch{
+             font-size: 50px;
+             font-weight: bold;
+             margin-left: 13px;
+        }
+        .button{
+             margin-top: 20px;
+        }
+        .r{
+            font-size: 20px;
+            background: none;
+            border: none;
+            color: none;
+            padding: 12px 24px;
+            background-color: var(--clr);
+            margin-inline: 5px;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+</style>
+</head>
+<body>
+     <div class="box">
+        <div class="watch">00 : 00 : 00</div>
+     </div>
+     <div class="button">
+        <button id="stop" class="r" style="--clr: red;">stop</button>
+        <button  id="start"  class="r" style="--clr: green;">start</button>
+        <button id="reset" class="r" style="--clr: blue;">Reset</button>
+     </div>
+     <script>
+           let timerDisplay = document.querySelector('.watch');
+        let stopBtn = document.getElementById('stop');
+        let startBtn = document.getElementById('start');
+        let resetBtn = document.getElementById('reset');
+
+        let msec = 0;
+        let secs = 0;
+        let mins = 0;
+
+        let timerId = null;
+
+        startBtn.addEventListener('click', function(){
+            if(timerId !== null){
+                clearInterval(timerId);
+            }
+            timerId = setInterval(startTimer, 10);
+        });
+
+        stopBtn.addEventListener('click', function(){
+            clearInterval(timerId);
+        });
+
+        resetBtn.addEventListener('click', function(){
+            clearInterval(timerId);
+            timerDisplay.innerHTML = `00 : 00 : 00`;
+            msec = secs = mins = 0;
+        });
+
+        function startTimer(){
+            msec++;
+            if(msec == 100){
+                msec = 0;
+                secs++;
+                if(secs == 60){
+                    secs = 0;
+                    mins++;
+                }
+            }
+
+            let msecString = msec < 10 ? `0${msec}` : msec;
+            let secsString = secs < 10 ? `0${secs}` : secs;
+            let minsString = mins < 10 ? `0${mins}` : mins;
+
+            timerDisplay.innerHTML = `${minsString} : ${secsString} : ${msecString}`;
+        }
+     </script>
+</body>
+</html>
